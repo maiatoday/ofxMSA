@@ -60,6 +60,7 @@ void ofxMSAParticle::init(ofPoint pos, float m, float d) {
 	setDrag(d);
 	setBounce();
 	setRadius();
+	setConstraintDelta();
 	enableCollision();
 	makeFree();
 	_isDead = false;

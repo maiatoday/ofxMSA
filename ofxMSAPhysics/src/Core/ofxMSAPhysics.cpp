@@ -240,22 +240,22 @@ ofxMSAPhysics* ofxMSAPhysics::setSectorCount(ofPoint vCount) {
 	if(vCount.x <= 0) vCount.x = 1;
 	if(vCount.y <= 0) vCount.y = 1;
 	if(vCount.z <= 0) vCount.z = 1;
-	
+
 	params.sectorCount = vCount;
-	
+
 //	params.sectorCount.x = 1 << (int)vPow.x;
 //	params.sectorCount.y = 1 << (int)vPow.y;
 //	params.sectorCount.z = 1 << (int)vPow.z;
-	
+
 //	ofPoint sectorSize = params.worldSize / sectorCount;
-	
+
 	_sectors.clear();
 	int numSectors = params.sectorCount.x * params.sectorCount.y * params.sectorCount.z;
 	for(int i=0; i<numSectors; i++) {
 		_sectors.push_back(ofxMSAPhysicsSector());
 	}
 //	_sectors.reserve(params.sectorCount.x * params.sectorCount.y * params.sectorCount.z);
-	
+
     return this;
 }
 
@@ -382,20 +382,20 @@ void ofxMSAPhysics::updateParticles() {
 			particle->update();
 			applyUpdaters(particle);
 			if(params.doWorldEdges) {
-//				if(particle->isFree()) 
+//				if(particle->isFree())
 					particle->checkWorldEdges();
 			}
-			
+
 			// find which sector particle is in
 			int i = ofMap(particle->getX(), params.worldMin.x, params.worldMax.x, 0, params.sectorCount.x, true);
 			int j = ofMap(particle->getY(), params.worldMin.y, params.worldMax.y, 0, params.sectorCount.y, true);
 			int k = ofMap(particle->getZ(), params.worldMin.z, params.worldMax.z, 0, params.sectorCount.z, true);
 
 			_sectors[i * params.sectorCount.y * params.sectorCount.x + j * params.sectorCount.x + k].addParticle(particle);
-			
+
 //			printf("sector for particle at %f, %f, %f is %i %i %i\n", particle->getX(), particle->getY(), particle->getZ(), i, j, k);
 //			for(int s=0; s<_sectors.size(); s++) _sectors[s].checkParticle(particle);
-			
+
 #ifdef MSAPHYSICS_USE_RECORDER
 			if(_replayMode == OFX_MSA_DATA_SAVE) _recorder.add(*particle);
 #endif

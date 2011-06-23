@@ -47,7 +47,7 @@ public:
 
 	// set strength of attraction (+ve
 	void setStrength(float newStrength);
-	
+
 	// get strength of attraction
 	float getStrength();
 
@@ -57,11 +57,13 @@ protected:
 	void solve() {
 		ofPoint delta = _b->getPosition() - _a->getPosition();
 		float deltaLength2 = msaLengthSquared(delta);
-		
+		_a->setConstraintDelta(deltaLength2 + 0.001);
+		_b->setConstraintDelta(deltaLength2 + 0.001);
+
 		float force = _strength * (_b->getMass()) * (_a->getMass()) / (deltaLength2 + 0.001);		// to avoid divide by zero
-		
+
 		ofPoint deltaForce = delta * force;
-		
+
 		if (_a->isFree()) _a->moveBy(deltaForce * _a->getInvMass(), false);
 		if (_b->isFree()) _b->moveBy(deltaForce * -_b->getInvMass(), false);
 	}

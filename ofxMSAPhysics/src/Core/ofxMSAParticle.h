@@ -45,7 +45,7 @@ public:
 	ofxMSAParticle();
 	ofxMSAParticle(ofPoint pos, float m = 1.0f, float d = 1.0f);
 	ofxMSAParticle(ofxMSAParticle &p);
-	
+
 	virtual void	init(ofPoint pos, float m = 1.0f, float d = 1.0f);
 
 	ofxMSAParticle* setMass(float t = 1);
@@ -60,6 +60,9 @@ public:
 
 	ofxMSAParticle* setRadius(float t = 15);
 	float			getRadius();
+
+	ofxMSAParticle* setConstraintDelta(float t = 15);
+	float			getConstraintDelta();
 
 	// collision methods
 	ofxMSAParticle* enableCollision();
@@ -81,7 +84,7 @@ public:
 	float			getY();
 	float			getZ();
 	ofPoint			getPosition();
-	
+
     ofxMSAParticle* setVelocity(ofPoint vel);
     ofxMSAParticle* addVelocity(ofPoint vel);
 	ofPoint			getVelocity();
@@ -92,7 +95,7 @@ public:
 
 	void			kill();
 	bool			isDead();
-	
+
 	// custom void* which you can use to store any kind of custom data
 	void			*data;
 
@@ -101,6 +104,7 @@ public:
 protected:
 	ofxMSAPhysicsParams *_params;
 	ofxMSAPhysics		*_physics;
+
 
 	ofPoint			_pos;
 	ofPoint			_oldPos;
@@ -112,6 +116,7 @@ protected:
 	bool			_isDead;
 	bool			_isFixed;
 	bool			_collisionEnabled;
+    float           _deltaFromConstraint;
 
 	void			doVerlet();
 	void			checkWorldEdges();
@@ -163,6 +168,15 @@ inline ofxMSAParticle* ofxMSAParticle::setRadius(float t) {
 
 inline float ofxMSAParticle::getRadius() {
 	return _radius;
+}
+
+inline ofxMSAParticle* ofxMSAParticle::setConstraintDelta(float t) {
+	_deltaFromConstraint = t;
+	return this;
+}
+
+inline float ofxMSAParticle::getConstraintDelta() {
+	return _deltaFromConstraint;
 }
 
 inline bool ofxMSAParticle::isFixed() {
